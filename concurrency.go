@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"sync"
 	"time"
 )
 
@@ -101,5 +102,76 @@ func experiment_goroutinekill() {
 		}
 
 	}
+
+}
+
+func experiment_repeater() {
+
+	tch := make(chan time.Time)
+
+	go func() {
+		for now := range time.Tick(time.Second) {
+			tch <- now
+
+		}
+
+	}()
+
+	for {
+		fmt.Print(<-tch, "\n") //Putting this into a seperate loop/function is not really necessary, since time.Tick(t) is already a <-channel.
+	}
+
+}
+
+func experiment_timedcall() { // AfterFunc creates a timer that executes a function after t duration has passed, unless it is stopped.
+	timer := time.AfterFunc(time.Second*30, func() {
+		fmt.Println("Program ran for 30 seconds. Shutting down...")
+		os.Exit(0)
+	})
+	defer timer.Stop() // If the function returns, cancel the timer before it triggers.
+	for {
+	}
+	// Do heavy work
+}
+
+////////////////| Mutex Locks ...are not for now |//////////////////
+
+type AtomicInt struct {
+	mu sync.Mutex
+	n  int
+}
+
+func (a *AtomicInt) Set(i int) {
+	a.mu.Lock()
+	a.n = i
+	a.mu.Unlock()
+}
+
+func (a *AtomicInt) Add() {
+	a.mu.Lock()
+	a.n++
+	a.mu.Unlock()
+}
+
+func (a *AtomicInt) Read() int {
+	a.mu.Lock()
+	i := a.n
+	a.mu.Unlock()
+	return i
+}
+
+func (a *AtomicInt) Wait(duration time.Duration) {
+	a.mu.Lock()
+	time.Sleep(duration)
+	a.mu.Unlock()
+}
+
+func experiment_mutex() { //...Actually, doing this here in a way that demonstrates something would be too tedious right now.
+
+	a := AtomicInt{sync.Mutex{}, 0}
+	go fmt.Println(a.Read())
+	go a.Set(5)
+	go time.Sleep(5 * time.Second)
+	go fmt.Println(a.Read())
 
 }

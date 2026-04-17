@@ -36,3 +36,20 @@ func experiment_embedding() {
 	greek = &b
 	fmt.Print(greek) //Embedding does indeed lead to both structs fulfilling the interface conditions. Neat.
 }
+
+////////////////| Stack Machine |/////////////////////
+
+type memSeg int16
+
+type Stack struct {
+	Memory       [1024]uint16
+	RegA         int16
+	RegB         int16
+	instructions []uint16
+	instCursor   int16
+}
+
+func (s *Stack) Run() {
+	//instruction := s.instructions[s.instCursor]
+
+}
