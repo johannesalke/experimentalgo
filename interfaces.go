@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io"
+	"os"
 )
 
 /////| Testing the behavior of interface-type variables |/////
@@ -148,3 +149,34 @@ func experiment_offsets() {
 	fmt.Print(n, "\n")
 	fmt.Printf("Read: %s\n", buf)
 */
+
+//////////////| os.Stdin & Stdout are reader/writer interfaces in GO??? |/////////////////////
+
+func experiment_stdio() {
+	var stdin io.Reader
+
+	stdin = os.Stdin
+	fmt.Print(stdin)
+}
+
+///////////////| Does Go have function types? |/////////////////
+
+type exp_func func(string, string) string
+
+func experiment_functiontype() { //Turns out, it does. I came across the concept while learning Javascript and initially thought of Interfaces, but then considered that Go seems like it would have the just basic functiontypes as well.
+
+	var fun exp_func
+
+	fun = func(s1 string, s2 string) string {
+		return s1 + s2
+	}
+	fmt.Println(fun("this", "that"))
+
+	fun = test_functiontype
+
+	fmt.Println(fun("this", "that"))
+}
+
+func test_functiontype(s1 string, s2 string) string {
+	return s1 + "&" + s2
+}

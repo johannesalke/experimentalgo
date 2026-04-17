@@ -21,7 +21,8 @@ func main() {
 	//<>experiment_mutex()
 	//experiment_tcp_test()
 	//experiment_tcp_writer()
-	experiment_tcp_readwriter()
+	experiment_functiontype()
+	//experiment_tcp_readwriter()
 	fmt.Print("\n")
 
 	time.Sleep(time.Second)
