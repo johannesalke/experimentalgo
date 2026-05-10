@@ -5,3 +5,7 @@ https://dave.cheney.net/2013/06/30/how-to-write-benchmarks-in-go
 
 https://go.dev/blog/pprof
 
+
+The actual code of the Go standard libary:
+https://cs.opensource.google/go/go/+/master:
+

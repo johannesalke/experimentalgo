@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	//"github.com/johannesalke/experimentalgo/stdlib"
 	"time"
 )
 
@@ -21,8 +22,15 @@ func main() {
 	//<>experiment_mutex()
 	//experiment_tcp_test()
 	//experiment_tcp_writer()
-	experiment_functiontype()
-	//experiment_tcp_readwriter()
+	//experiment_functiontype()	//Followup!
+	//experiment_tcp_readwriter() //Followup!
+
+	//stdlib.Experiment_scanner()
+	//stdlib.Experiment_customSplit_scanner()
+	//experiment_command_input()
+	//experiment_command_input_pipe()
+	experiment_command_pipelineing()
+
 	fmt.Print("\n")
 
 	time.Sleep(time.Second)
