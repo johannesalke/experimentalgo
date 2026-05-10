@@ -38,3 +38,31 @@ func experiment_command_pipelineing() { // Can you link commands as if by | pipe
 	grep.Start()
 
 }
+
+// It turns out that you can hand a file with \n chars to a sh process and it will be interpreted as seperate commands. Basically just the same as a shell script though.
+func experiment_command_shell_from_file() {
+	cmd := exec.Command("sh")
+	stdin, _ := cmd.StdinPipe()
+	cmd.Stdout = os.Stdout
+	file, _ := os.Open("assets/commands.txt")
+	file.WriteTo(stdin)
+	cmd.Start()
+
+}
+
+// By getting the file identifier of another terminal's output with tty, you can redirect cmd.Stdout to another terminal process entirely
+// I also checked whether you can write to another terminal's stdin, but that was wisely blocked as a security measure, unless you explicitly unblock it
+func experiment_command_send_output_to_another_terminal() {
+	out, _ := os.OpenFile(os.Args[1], os.O_WRONLY, 0)
+
+	defer out.Close()
+
+	cmd := exec.Command("sh")
+	stdin, _ := cmd.StdinPipe()
+	cmd.Stdout = out
+	file, _ := os.Open("assets/commands.txt")
+	defer file.Close()
+	file.WriteTo(stdin)
+	cmd.Start()
+
+}

@@ -29,7 +29,9 @@ func main() {
 	//stdlib.Experiment_customSplit_scanner()
 	//experiment_command_input()
 	//experiment_command_input_pipe()
-	experiment_command_pipelineing()
+	//experiment_command_pipelineing()
+	//experiment_command_shell_from_file()
+	experiment_command_send_output_to_another_terminal()
 
 	fmt.Print("\n")
 
