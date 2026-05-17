@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 	"os"
+	"strings"
 	"sync"
 	"time"
 )
@@ -173,5 +175,28 @@ func experiment_mutex() { //...Actually, doing this here in a way that demonstra
 	go a.Set(5)
 	go time.Sleep(5 * time.Second)
 	go fmt.Println(a.Read())
+
+}
+
+/////////////////| Limits of Goroutines: Can you spin server and client from the same initializing process? |/////////////////////
+
+func experiment_goroutine_limit_A() {
+
+	http.HandleFunc("/", goroutine_limit_handler)
+
+	http.ListenAndServe(":11111", nil)
+
+}
+
+func goroutine_limit_handler(w http.ResponseWriter, r *http.Request) {
+	//fmt.Print("Request received")
+	buf := make([]byte, 100)
+	r.Body.Read(buf)
+	fmt.Print(string(buf))
+}
+
+func experiment_goroutine_limit_B() {
+	body := strings.NewReader("Test message")
+	http.Post("http://localhost:11111", "text/plain", body)
 
 }

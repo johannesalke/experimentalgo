@@ -31,8 +31,13 @@ func main() {
 	//experiment_command_input_pipe()
 	//experiment_command_pipelineing()
 	//experiment_command_shell_from_file()
-	experiment_command_send_output_to_another_terminal()
+	//experiment_command_send_output_to_another_terminal()
 
+	//go experiment_goroutine_limit_A()
+	//time.Sleep(time.Second)
+	//experiment_goroutine_limit_B()
+
+	experiment_format_preexisting_string()
 	fmt.Print("\n")
 
 	time.Sleep(time.Second)
