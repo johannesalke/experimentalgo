@@ -200,3 +200,33 @@ func experiment_goroutine_limit_B() {
 	http.Post("http://localhost:11111", "text/plain", body)
 
 }
+
+/////////////////////| More channel stuff |///////////////////
+
+func experiment_channels_closing() {
+	ch := make(chan int)
+	go channel_closer(ch)
+
+	for i := range ch {
+		fmt.Println(i)
+		if i == 8 {
+			break
+		}
+	}
+
+	v, ok := <-ch
+	fmt.Println(v)
+	fmt.Println(ok)
+
+	<-ch
+
+}
+
+func channel_closer(ch chan<- int) {
+	for i := range 10 {
+		ch <- i
+	}
+
+	close(ch)
+
+}

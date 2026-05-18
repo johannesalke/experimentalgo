@@ -37,7 +37,10 @@ func main() {
 	//time.Sleep(time.Second)
 	//experiment_goroutine_limit_B()
 
-	experiment_format_preexisting_string()
+	//experiment_format_preexisting_string()
+
+	//experiment_channels_closing()
+	experiment_printing_runes()
 	fmt.Print("\n")
 
 	time.Sleep(time.Second)
