@@ -1,7 +1,7 @@
 - Context
 - Type assertion & switches
 - Middleware
-- Panic & Recovery
+x Panic & Recovery
 x new  => Initialize struct with zero values.
 x Loop tags
 x goto 

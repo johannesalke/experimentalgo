@@ -52,7 +52,9 @@ func main() {
 
 	//experiment_new_struct()
 	//experiment_goto_label()
-	experiment_break_outer_loop()
+	//experiment_break_outer_loop()
+	//experiment_panic_and_defer()
+	experiment_panic_and_recovery()
 
 	fmt.Print("\n")
 
