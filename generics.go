@@ -46,5 +46,39 @@ func experiment_union_constrained_generic[T number](n T) {
 
 // These are not true unions as Javascript might have them. They only work for generic constraints.
 type number interface {
-	float64 | float32 | int | int64
+	~float64 | ~float32 | ~int | ~int64
+}
+
+// The ~ makes it so that any type based on the base types also satisfies the interface
+type intProxy int
+
+func experiment_generic_interface() {
+	db := doubler(2)
+	db.Multiply(5)
+	m := Multiplier[float64]{val: 7.123}
+	m.Multiply(12.1341) //Automatically adjusts to require a float64
+
+	var gen genericInterface[int] = db
+	gen.Multiply(4)
+	var gen2 genericInterface[float64] = m
+	gen2.Multiply(12.123)
+
+} //Ok, I'M still not 100% sure how exactly this works, but it's fine enough for now.
+
+type genericInterface[P number] interface {
+	Multiply(P)
+}
+
+type doubler int
+
+func (d doubler) Multiply(factor int) {
+	fmt.Println(factor * int(d))
+}
+
+type Multiplier[P number] struct {
+	val P
+}
+
+func (m Multiplier[P]) Multiply(factor P) {
+	fmt.Println(m.val * factor)
 }
