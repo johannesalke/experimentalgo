@@ -42,7 +42,13 @@ func main() {
 	//experiment_channels_closing()
 	//experiment_printing_runes()
 
-	experiment_reflect_type_and_kind()
+	//experiment_reflect_type_and_kind()
+
+	//experiment_generic_function([]int{1, 2, 4, 5})
+	//experiment_constrained_generic(struct256(0b01010101))
+	experiment_union_constrained_generic(int(2))
+	experiment_union_constrained_generic(float64(2.1241))
+
 	fmt.Print("\n")
 
 	time.Sleep(time.Second)
