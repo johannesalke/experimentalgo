@@ -48,7 +48,11 @@ func main() {
 	//experiment_constrained_generic(struct256(0b01010101))
 	//experiment_union_constrained_generic(intProxy(2))
 	//experiment_union_constrained_generic(float64(2.1241))
-	experiment_generic_interface()
+	//experiment_generic_interface()
+
+	//experiment_new_struct()
+	//experiment_goto_label()
+	experiment_break_outer_loop()
 
 	fmt.Print("\n")
 

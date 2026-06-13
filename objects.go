@@ -53,3 +53,10 @@ func (s *Stack) Run() {
 	//instruction := s.instructions[s.instCursor]
 
 }
+
+////////////////| new |///////////////////////
+
+func experiment_new_struct() {
+	ofst := new(Offsets)
+	fmt.Println(ofst)
+}
