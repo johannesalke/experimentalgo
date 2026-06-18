@@ -54,7 +54,10 @@ func main() {
 	//experiment_goto_label()
 	//experiment_break_outer_loop()
 	//experiment_panic_and_defer()
-	experiment_panic_and_recovery()
+	//experiment_panic_and_recovery()
+
+	//experiment_context_withcancel()
+	experiment_context_withdeadline()
 
 	fmt.Print("\n")
 
