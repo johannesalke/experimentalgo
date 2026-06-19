@@ -57,7 +57,8 @@ func main() {
 	//experiment_panic_and_recovery()
 
 	//experiment_context_withcancel()
-	experiment_context_withdeadline()
+	//experiment_context_withdeadline()
+	experiment_context_from_http_request()
 
 	fmt.Print("\n")
 

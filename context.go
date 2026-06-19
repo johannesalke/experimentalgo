@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"net/http"
 
 	"time"
 )
@@ -50,4 +51,26 @@ func experiment_context_withdeadline() {
 	time.Sleep(6 * time.Second)
 	cancel()
 
+}
+
+func experiment_context_from_http_request() {
+	http.HandleFunc("/", contextMiddleware(context_handler))
+	http.ListenAndServe(":21512", nil)
+}
+
+func context_handler(w http.ResponseWriter, r *http.Request) {
+
+	w.WriteHeader(299)
+	w.Write([]byte("Response"))
+	ctx := r.Context()
+	fmt.Println("Time received: ", ctx.Value("time_received"))
+
+}
+
+func contextMiddleware(next http.HandlerFunc) http.HandlerFunc {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		ctx := context.WithValue(r.Context(), "time_received", time.Now())
+		r = r.WithContext(ctx)
+		next.ServeHTTP(w, r)
+	})
 }
