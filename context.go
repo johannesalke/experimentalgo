@@ -74,3 +74,24 @@ func contextMiddleware(next http.HandlerFunc) http.HandlerFunc {
 		next.ServeHTTP(w, r)
 	})
 }
+
+// What happens if the http request is canceled by the client before the response is sent by the server?
+func experiment_context_request_cancelled() {
+	http.HandleFunc("/", contextMiddleware(request_cancelled_handler))
+	http.ListenAndServe(":21512", nil)
+
+}
+
+// As expected, if the request is cancelled or the connection is interrupted, the context is also cancelled.
+func request_cancelled_handler(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	select {
+	case <-time.After(10 * time.Second):
+		w.Write([]byte("Response"))
+
+		fmt.Println("Time received: ", ctx.Value("time_received"))
+	case <-ctx.Done():
+		fmt.Println("Request was cancelled before it could be fulfilled!")
+
+	}
+}
