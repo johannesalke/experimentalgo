@@ -82,7 +82,6 @@ func experiment_context_request_cancelled() {
 
 }
 
-// As expected, if the request is cancelled or the connection is interrupted, the context is also cancelled.
 func request_cancelled_handler(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	select {
@@ -94,4 +93,57 @@ func request_cancelled_handler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Request was cancelled before it could be fulfilled!")
 
 	}
+} // As expected, if the request is cancelled or the connection is interrupted, the context is also cancelled.
+
+// ////////////////| How does context inheritance work in tree patterns? |//////////////////////////
+func experiment_context_tree_branch() {
+	ctx1 := context.Background()
+	ctx2, cancel2 := context.WithCancel(ctx1)
+	ctx3 := context.WithValue(ctx2, "this", "that")
+	ctx4 := context.WithValue(ctx2, "1", "2")
+
+	go subcontext_resolver(ctx1, "ctx1")
+	go subcontext_resolver(ctx2, "ctx2")
+	go subcontext_resolver(ctx3, "ctx3")
+	go subcontext_resolver(ctx4, "ctx4")
+
+	cancel2()
+
+}
+
+func subcontext_resolver(ctx context.Context, ctxName string) {
+	select {
+	case <-time.After(5 * time.Second):
+		fmt.Println("Context resolved:", ctxName)
+	case <-ctx.Done():
+		fmt.Println("Context cancelled:", ctxName)
+		fmt.Println(ctx.Value("this"))
+	}
+	time.Sleep(5 * time.Second)
+}
+
+/*Output:
+Context cancelled: ctx4
+<nil>
+Context cancelled: ctx2
+<nil>
+Context cancelled: ctx3
+that
+*/ //=> Value storage is only transmitted to descending contexts. ctx1 never gets to finish due to the
+
+func experiment_context_tree_leaf() {
+	ctx1 := context.Background()
+	ctx2, _ := context.WithCancel(ctx1)
+	ctx3, cancel3 := context.WithCancel(context.WithValue(ctx2, "this", "that"))
+	ctx4 := context.WithValue(ctx2, "1", "2")
+
+	go subcontext_resolver(ctx1, "ctx1")
+	go subcontext_resolver(ctx2, "ctx2")
+	go subcontext_resolver(ctx3, "ctx3")
+	go subcontext_resolver(ctx4, "ctx4")
+	cancel3()
+	//cancel2()
+
+	time.Sleep(5 * time.Second)
+
 }

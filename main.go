@@ -59,7 +59,9 @@ func main() {
 	//experiment_context_withcancel()
 	//experiment_context_withdeadline()
 	//experiment_context_from_http_request()
-	experiment_context_request_cancelled()
+	//experiment_context_request_cancelled()
+	//experiment_context_tree_branch()
+	experiment_context_tree_leaf()
 
 	fmt.Print("\n")
 
